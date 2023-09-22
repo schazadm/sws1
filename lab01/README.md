@@ -46,3 +46,8 @@ flag: 78b8ae7f-3fc0-4065-8249-9789a86ff6fa
 ```
 
 - after the attack the role of `alice` was changed to `admin`
+
+# Password Spraying HTTP
+
+- username and password: `user_140108:2cb0fa54`
+- flag: `7370e499-6900-4ba0-97af-e29a6112c3ba`
